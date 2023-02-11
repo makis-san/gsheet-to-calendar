@@ -3,8 +3,9 @@ require('dotenv').config();
 import _export from './export';
 import cliSpinners from 'cli-spinners';
 import ora from 'ora';
-import fetchEvents from './actions/fetchEvents';
+import fetchEvents, { defaultFetchOptions } from './actions/fetchEvents';
 import Enquirer from 'enquirer';
+import { type } from 'os';
 
 const initialPrompt = [
   {
@@ -22,6 +23,7 @@ const initialPrompt = [
     initial: undefined
   }
 ];
+
 const runInitialPrompt = async () => {
   const qa = new Enquirer<{ docId: string; sheetId?: string }>();
   const values = await qa.prompt(initialPrompt);

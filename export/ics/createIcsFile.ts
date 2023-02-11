@@ -47,9 +47,9 @@ export default async (calendarTitle: string, events: EventTypes[]) => {
   );
 
   const { error, value } = ics.createEvents(parsedEvents);
+
   if (error) {
     log.error(error.name);
-    console.log(error);
     return;
   }
 

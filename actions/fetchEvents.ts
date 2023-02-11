@@ -1,19 +1,28 @@
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { parse, format } from 'date-fns';
-import ptBrLocale from 'date-fns/locale/pt-BR';
+import locales from 'date-fns/locale';
 import _export from '../export';
 import chalk from 'chalk';
-import { log } from '../utils';
+import { columnRange } from './utils/columnRange';
 
 require('dotenv').config();
 
-const colRange = ['A', 'B', 'C', 'D', 'E'];
 const rowRange = 34;
 const calendarArray = [];
 
-export const fetchEvents: FetchEventsFN = async (callback, docId, sheetId) => {
-  const doc = new GoogleSpreadsheet(docId);
+export const defaultFetchOptions: FetchEventsFNOptions = {
+  dateFormat: `d 'de' MMMM`,
+  startColRange: ['A', 'E'],
+  locale: 'ptBR'
+};
 
+export const fetchEvents: FetchEventsFN = async (
+  callback,
+  docId,
+  sheetId,
+  options = defaultFetchOptions
+) => {
+  const doc = new GoogleSpreadsheet(docId);
   doc.useApiKey(process.env.DOC_API_KEY || '');
 
   await doc.loadInfo().catch((error) => {
@@ -23,11 +32,6 @@ export const fetchEvents: FetchEventsFN = async (callback, docId, sheetId) => {
     }
   });
 
-  console.log(
-    sheetId && sheetId !== '' && doc.sheetsById[sheetId]
-      ? 'badongas'
-      : 'badingas'
-  );
   const sheet =
     sheetId && sheetId !== '' && doc.sheetsById[sheetId]
       ? doc.sheetsById[sheetId]
@@ -47,16 +51,18 @@ export const fetchEvents: FetchEventsFN = async (callback, docId, sheetId) => {
     return;
   }
 
-  await sheet.loadCells('A1:E34');
+  await sheet.loadCells(
+    `${options.startColRange[0]}1:${options.startColRange[1]}${34}`
+  );
 
   const columnsToFetchData = ['', ''];
 
   [...Array(rowRange)].forEach((_, row) =>
-    colRange.forEach((col, colIndex) => {
+    columnRange.forEach((col, colIndex) => {
       const cellA1 = `${col}${row + 1}`;
       const nearCellA1 =
-        colIndex !== colRange.length - 1
-          ? `${colRange[colIndex + 1]}${row + 1}`
+        colIndex !== columnRange.length - 1
+          ? `${columnRange[colIndex + 1]}${row + 1}`
           : undefined;
 
       const cell = sheet.getCellByA1(cellA1);
@@ -96,10 +102,10 @@ export const fetchEvents: FetchEventsFN = async (callback, docId, sheetId) => {
       const parsedEvents = dates.map((dateString) => {
         const date = parse(
           dateValue.toString().replace(/.*[0-9]/gm, `${dateString}`),
-          "d 'de' MMMM",
+          options.dateFormat,
           new Date(),
           {
-            locale: ptBrLocale
+            locale: locales[options.locale]
           }
         );
 
