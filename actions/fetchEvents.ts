@@ -1,6 +1,6 @@
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { parse, format } from 'date-fns';
-import locales from 'date-fns/locale';
+import locale from 'date-fns/locale/pt-BR';
 import _export from '../export';
 import chalk from 'chalk';
 import { columnRange } from './utils/columnRange';
@@ -105,7 +105,7 @@ export const fetchEvents: FetchEventsFN = async (
           options.dateFormat,
           new Date(),
           {
-            locale: locales[options.locale]
+            locale: locale
           }
         );
 

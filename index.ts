@@ -1,3 +1,5 @@
+///<reference path="./@types/index.d.ts" />
+
 require('dotenv').config();
 
 import _export from './export';
@@ -9,7 +11,7 @@ import { type } from 'os';
 
 const initialPrompt = [
   {
-    type: 'input',
+    type: 'password',
     message: 'Enter the google document id',
     name: 'docId',
     hint: '(the big text on the url)',
