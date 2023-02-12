@@ -1,38 +1,41 @@
 ///<reference path="./@types/index.d.ts" />
 
-require('dotenv').config();
-
+import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import _export from './export';
 import cliSpinners from 'cli-spinners';
 import ora from 'ora';
 import fetchEvents, { defaultFetchOptions } from './actions/fetchEvents';
 import Enquirer from 'enquirer';
-import { type } from 'os';
 
 const initialPrompt = [
   {
-    type: 'password',
-    message: 'Enter the google document id',
-    name: 'docId',
-    hint: '(the big text on the url)',
-    required: true
-  },
-  {
     type: 'input',
-    message: 'Enter sheet id',
-    name: 'sheetId',
-    hint: 'Defaults to the last created',
-    initial: undefined
+    message: 'Enter the google sheet document url',
+    name: 'docUrl',
+    hint: 'https://docs.google.com/spreadsheets/d/123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    required: true,
+    validate: (string: string) =>
+      string.includes('https://docs.google.com/spreadsheets')
   }
 ];
 
 const runInitialPrompt = async () => {
-  const qa = new Enquirer<{ docId: string; sheetId?: string }>();
+  const qa = new Enquirer<{ docUrl: string }>();
   const values = await qa.prompt(initialPrompt);
-  return values;
+
+  const sheetId = values.docUrl.match(/gid=([^;]*)/gm);
+
+  return {
+    docId: values.docUrl
+      .replace('https://docs.google.com/spreadsheets/', '')
+      .split('/')[1],
+    sheetId: sheetId && sheetId[0].replace('gid=', '')
+  };
 };
 
 const init = async () => {
+  dotenv.config();
+
   const values = await runInitialPrompt().catch(() => process.exit(1));
 
   const spinner = ora({

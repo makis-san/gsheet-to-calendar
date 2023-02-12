@@ -1,9 +1,6 @@
 import { calendar, auth } from '@googleapis/calendar';
-import { format } from 'date-fns';
 import { OAuth2Client } from 'googleapis-common';
 import { log } from '../../utils';
-
-require('dotenv').config();
 
 export default async (
   calendarId: string,

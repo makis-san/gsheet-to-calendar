@@ -1,4 +1,4 @@
-import { auth, oauth2 } from '@googleapis/oauth2';
+import { oauth2 } from '@googleapis/oauth2';
 import cliSpinners from 'cli-spinners';
 import ora from 'ora';
 import { log } from '../../utils';
@@ -9,7 +9,7 @@ import saveEvents from './saveEvents';
 export default async (
   calendarTitle: string,
   events: EventTypes[],
-  access?: string
+  _access?: string
 ) => {
   const spinner = ora({
     text: 'Waiting for google...',

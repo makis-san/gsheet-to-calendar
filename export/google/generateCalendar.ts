@@ -1,6 +1,5 @@
 import { calendar, auth } from '@googleapis/calendar';
 import { OAuth2Client } from 'googleapis-common';
-require('dotenv').config();
 
 export default async (calendarTitle: string, oAuthClient: OAuth2Client) => {
   const api = calendar({

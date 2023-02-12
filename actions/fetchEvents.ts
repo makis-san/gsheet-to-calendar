@@ -5,8 +5,6 @@ import _export from '../export';
 import chalk from 'chalk';
 import { columnRange } from './utils/columnRange';
 
-require('dotenv').config();
-
 const rowRange = 34;
 const calendarArray = [];
 
