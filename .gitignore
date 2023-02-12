@@ -1,5 +1,5 @@
 node_modules
-build
+./build
 .env
 .ics
 .DS_Store

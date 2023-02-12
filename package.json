@@ -2,12 +2,16 @@
   "name": "gsheet-to-calendar",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "bin": {
+    "gsheetToCalendar": "./build/index.js"
+  },
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsx ./index.ts",
-    "dev": "tsx watch ./index.ts",
-    "lint": "eslint ./**/*.{js, ts, tsx} --no-error-on-unmatched-pattern",
+    "start": "tsx ./src/index.ts",
+    "start:help": "tsx ./src/index.ts --help",
+    "build": "tsc",
+    "dev": "tsx watch ./src/index.ts",
+    "lint": "eslint ./src/**/*.{js, ts, tsx} --no-error-on-unmatched-pattern",
     "pretty-quick": "pretty-quick"
   },
   "keywords": [],
@@ -19,6 +23,7 @@
     "@types/google-spreadsheet": "^3.3.1",
     "@types/node": "^18.13.0",
     "@types/typescript": "^2.0.0",
+    "@types/yargs": "^17.0.22",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
@@ -45,6 +50,7 @@
     "google-spreadsheet": "^3.3.0",
     "ics": "^3.0.1",
     "open": "^8.4.1",
-    "ora": "^6.1.2"
+    "ora": "^6.1.2",
+    "yargs": "^17.6.2"
   }
 }

@@ -6,7 +6,7 @@ import chalk from 'chalk';
 import { columnRange } from './utils/columnRange';
 
 const rowRange = 34;
-const calendarArray = [];
+const calendarArray: EventTypes[] = [];
 
 export const defaultFetchOptions: FetchEventsFNOptions = {
   dateFormat: `d 'de' MMMM`,

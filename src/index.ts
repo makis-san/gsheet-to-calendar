@@ -1,12 +1,12 @@
-///<reference path="./@types/index.d.ts" />
-
-import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import * as dotenv from 'dotenv';
 import _export from './export';
 import cliSpinners from 'cli-spinners';
 import ora from 'ora';
-import fetchEvents, { defaultFetchOptions } from './actions/fetchEvents';
+import fetchEvents from './actions/fetchEvents';
 import Enquirer from 'enquirer';
+import cli from './cli';
 
+cli.parse();
 const initialPrompt = [
   {
     type: 'input',
