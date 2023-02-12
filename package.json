@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "bin": {
-    "gsheetToCalendar": "./build/index.js"
+    "gsheetToCalendar": "./build/src/index.js"
   },
   "type": "module",
   "scripts": {
     "start": "tsx ./src/index.ts",
     "start:help": "tsx ./src/index.ts --help",
     "build": "tsc",
+    "prod": "tsc && npm install -g",
     "dev": "tsx watch ./src/index.ts",
     "lint": "eslint ./src/**/*.{js, ts, tsx} --no-error-on-unmatched-pattern",
     "pretty-quick": "pretty-quick"

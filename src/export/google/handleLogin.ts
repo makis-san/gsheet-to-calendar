@@ -1,10 +1,9 @@
 import express from 'express';
 import open from 'open';
-import { auth } from '@googleapis/oauth2';
 import { oAuthClient, port, redirect } from './getOAuthClient';
 
 export default async () => {
-  let resolve;
+  let resolve: (value: string | PromiseLike<string>) => void;
   const app = express();
   const p = new Promise<string>((_resolve) => {
     resolve = _resolve;
@@ -12,7 +11,7 @@ export default async () => {
 
   app.get('/v1/oauth/google', (req, res) => {
     if (req.query.code) {
-      resolve(req.query.code);
+      resolve(req.query.code.toString());
       return res.send('Authenticated');
     }
     return res.send('Ooops :P');
