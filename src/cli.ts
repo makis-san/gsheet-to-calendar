@@ -2,9 +2,6 @@ import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 import init from './actions/init';
 
-// dateFormat: string;
-// startColRange: [LettersUpperCase, LettersUpperCase];
-// locale: string;
 export default yargs(hideBin(process.argv))
   .command('$0', 'Runs the process', () => {
     init();
