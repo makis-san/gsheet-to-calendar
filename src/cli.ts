@@ -2,6 +2,7 @@ import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 import init from './actions/init';
 import * as dotenv from 'dotenv';
+import { exportMethods } from './export';
 
 dotenv.config();
 
@@ -57,8 +58,8 @@ const cliOptions = yargs(hideBin(process.argv))
   .option('exportAs', {
     alias: 'as',
     group: 'Export options',
-    choices: ['google', 'ics'],
-    description: 'Defines the export method (google or ics).'
+    choices: exportMethods,
+    description: 'Defines the export method.'
   })
   .option('googleToken', {
     alias: 'gToken',
