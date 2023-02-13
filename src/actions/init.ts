@@ -51,6 +51,10 @@ export default async (args: CLIArguments) => {
   });
   spinner.start();
 
+  const locale = `${args.locale.split('-')[0]}${
+    args.locale.split('-')[1] ? args.locale.split('-')[1].toUpperCase() : ''
+  }` as LocaleKeyTypes;
+
   const res = await fetchEvents({
     document,
     sheetId,
@@ -64,11 +68,9 @@ export default async (args: CLIArguments) => {
     },
     options: {
       dateFormat: args?.dateFormat,
-      locale: `${args?.locale.split('-')[0]}${args?.locale
-        .split('-')[1]
-        .toUpperCase()}` as LocaleKeyTypes,
       dateStringColumn: args?.dateStringColumn,
-      titleStringColumn: args?.titleStringColumn
+      titleStringColumn: args?.titleStringColumn,
+      locale
     }
   });
 
@@ -91,5 +93,5 @@ export default async (args: CLIArguments) => {
 
   if (!select.values) process.exit(1);
 
-  _export[select.values](calendarTitle, events);
+  _export[select.values](calendarTitle, events, locale);
 };
