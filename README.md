@@ -5,6 +5,13 @@
 
 CLI api that uses google spreadsheet api to export calendar data.
 
+## Planned releases
+
+- Full cli support
+- Web application
+- Publish to npm package registry
+- Publish to homebrew
+
 ## Supported exports
 
 | Method | Status                                                                           |     |
