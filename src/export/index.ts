@@ -1,9 +1,15 @@
 import google from './google';
 import ics from './ics';
 import terminal from './terminal';
+import json from './json';
 
-export default {
+const exportObject = {
   google,
   ics,
-  terminal
+  terminal,
+  json
 };
+
+export const exportMethods = Object.keys(exportObject);
+
+export default exportObject;
