@@ -45,6 +45,7 @@ export const fetchEvents: FetchEventsFN = async (props) => {
     sheet.lastColumnLetter
   ]);
 
+  // deprecated
   [...Array(rowRange)].forEach((_, row) =>
     columnRange.forEach((col, colIndex) => {
       const cellA1 = `${col}${row + 1}`;
