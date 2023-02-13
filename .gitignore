@@ -3,3 +3,4 @@ dist
 .env
 .ics
 .DS_Store
+bin
