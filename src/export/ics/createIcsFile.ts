@@ -13,12 +13,12 @@ export default async (calendarTitle: string, events: EventTypes[]) => {
   const { saveUrl } = await qa.prompt({
     type: 'input',
     message: 'Where it should be saved?',
-    initial: `${path.resolve(__dirname)}`,
+    initial: `${path.resolve(process.cwd())}`,
     name: 'saveUrl'
   });
 
   const writePath = `${path.resolve(
-    __dirname,
+    process.cwd(),
     saveUrl || ''
   )}/${calendarTitle}.ics`;
 
