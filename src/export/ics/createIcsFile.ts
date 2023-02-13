@@ -9,13 +9,13 @@ import { log } from '../../utils';
 import Enquirer from 'enquirer';
 
 export default async (calendarTitle: string, events: EventTypes[]) => {
-  const qa = new Enquirer();
-  const { saveUrl } = (await qa.prompt({
+  const qa = new Enquirer<{ saveUrl: string }>();
+  const { saveUrl } = await qa.prompt({
     type: 'input',
     message: 'Where it should be saved?',
     initial: `${path.resolve(__dirname)}`,
     name: 'saveUrl'
-  })) as { saveUrl: string };
+  });
 
   const writePath = `${path.resolve(
     __dirname,

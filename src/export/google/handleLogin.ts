@@ -1,6 +1,6 @@
 import express from 'express';
 import open from 'open';
-import { oAuthClient, port, redirect } from './getOAuthClient';
+import { getOAuthClient, port, redirect } from './getOAuthClient';
 
 export default async () => {
   let resolve: (value: string | PromiseLike<string>) => void;
@@ -18,6 +18,8 @@ export default async () => {
   });
 
   const server = app.listen(port);
+
+  const oAuthClient = getOAuthClient();
 
   open(
     oAuthClient.generateAuthUrl({
