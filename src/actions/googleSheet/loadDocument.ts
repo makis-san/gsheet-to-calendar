@@ -3,7 +3,8 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 
 export default async (docId: string, callback: (msg: string) => void) => {
   const doc = new GoogleSpreadsheet(docId);
-  doc.useApiKey(process.env.DOC_API_KEY || '');
+  console.log(process.env.DOC_API_KEY);
+  doc.useApiKey(process.env.DOC_API_KEY as string);
 
   await doc.loadInfo().catch((error) => {
     if (error) {

@@ -3,28 +3,26 @@
   "version": "0.0.1",
   "description": "",
   "bin": {
-    "gsToCalendar": "./build/src/cli.js"
+    "gsToCalendar": "./dist/cli.js"
   },
-  "main": "./build/cli.js",
   "engines": {
     "node": ">=16.0.0"
   },
   "files": [
-    "/assets",
-    "/build"
+    "./dist"
   ],
   "scripts": {
     "start": "tsx ./src/cli.ts",
     "start:help": "tsx ./src/cli.ts --help",
     "package": "pkg . --targets node14-macos-x64 --output ./bin/gsToCalendar",
-    "build": "tsc",
+    "build": "rollup -c rollup.config.js",
     "prod": "npm run build && npm run package",
     "dev": "tsx watch ./src/cli.ts",
     "lint": "eslint ./src/**/*.{js, ts, tsx} --no-error-on-unmatched-pattern",
     "pretty-quick": "pretty-quick"
   },
   "pkg": {
-    "scripts": "./build/**/*.js"
+    "scripts": "./dist/**/*.js"
   },
   "keywords": [],
   "author": "",
@@ -48,6 +46,13 @@
     "pkg": "^5.8.0",
     "prettier": "2.8.4",
     "pretty-quick": "^3.1.3",
+    "rollup": "2.78",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-dts": "^5.1.1",
+    "rollup-plugin-esbuild": "^5.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-url": "^3.0.1",
+    "rollup-plugin-inject-process-env": "^1.3.1",
     "ts-node": "^10.9.1",
     "tsx": "^3.12.3",
     "typescript": "^4.9.5"
