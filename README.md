@@ -5,13 +5,13 @@
 
 CLI api that uses google spreadsheet api to export calendar data.
 
-<div style="display: flex; gap: 1rem;">
+<p float="left">
 
-![GitHub package.json version (branch)](https://img.shields.io/github/package-json/v/makis-san/gsheet-to-calendar/main?label=Version&style=for-the-badge)
+<img src="https://img.shields.io/github/package-json/v/makis-san/gsheet-to-calendar/main?label=Version&style=for-the-badge"/>
 
-![GitHub](https://img.shields.io/github/license/makis-san/gsheet-to-calendar?style=for-the-badge)
+<img src="https://img.shields.io/github/license/makis-san/gsheet-to-calendar?style=for-the-badge"/>
 
-</div>
+</p>
 
 ## Planned releases
 
