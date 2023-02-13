@@ -5,10 +5,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-export default yargs(hideBin(process.argv))
-  .command('$0', 'Runs the process', () => {
-    init();
-  })
+const cliOptions = yargs(hideBin(process.argv))
   .option('docId', {
     type: 'string',
     group: 'Sheet options',
@@ -27,17 +24,28 @@ export default yargs(hideBin(process.argv))
     description:
       'Defines the date format that the cli should look for at cells. Follow date-fns parse instructions.'
   })
+  .option('dateStringColumn', {
+    type: 'string',
+    alias: 'dateStrCol',
+    group: 'Sheet options',
+    description: 'Defines wich column contains the date string'
+  })
+  .option('titleStringColumn', {
+    type: 'string',
+    alias: 'titleStrCol',
+    group: 'Sheet options',
+    description: 'Defines wich column contains the event title string'
+  })
   .option('locale', {
     type: 'string',
     group: 'Sheet options',
     description: 'Defines the locale for the date-fns. (ISO 639-1)',
     default: 'pt-Br'
   })
-  .option('startFrom', {
-    type: 'array',
+  .option('startColumn', {
+    type: 'string',
     group: 'Sheet options',
-    description: 'Define the initial column range',
-    default: ['A', 'E']
+    description: 'Define the initial column'
   })
   .option('silent', {
     type: 'boolean',
@@ -59,4 +67,11 @@ export default yargs(hideBin(process.argv))
     description:
       'Sets google token (will automatically export to google calendar)'
   })
+  .command('$0', 'Runs the process', (args) => {
+    init(args.argv);
+  })
   .parse();
+
+export type CLIArguments = typeof cliOptions;
+
+export default cliOptions;

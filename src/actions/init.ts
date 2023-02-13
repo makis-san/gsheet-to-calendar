@@ -4,6 +4,8 @@ import ora from 'ora';
 import fetchEvents from './fetchEvents/fetchEvents';
 import Enquirer from 'enquirer';
 import googleSheet from './googleSheet';
+import { CLIArguments } from '../cli';
+import { LocaleKeyTypes } from './fetchEvents/fetchEvents.types';
 
 const initialPrompt = {
   type: 'input',
@@ -56,7 +58,8 @@ const fetchSheetInformation = async () => {
   };
 };
 
-export default async () => {
+export default async (args: CLIArguments) => {
+  args = await args;
   const { document, sheetId } = await fetchSheetInformation().catch(() =>
     process.exit(1)
   );
@@ -77,6 +80,14 @@ export default async () => {
         return;
       }
       spinner[type] && spinner[type](error);
+    },
+    options: {
+      dateFormat: args?.dateFormat,
+      locale: `${args?.locale.split('-')[0]}${args?.locale
+        .split('-')[1]
+        .toUpperCase()}` as LocaleKeyTypes,
+      dateStringColumn: args?.dateStringColumn,
+      titleStringColumn: args?.titleStringColumn
     }
   });
 
@@ -85,12 +96,13 @@ export default async () => {
   }
 
   spinner.stop();
+
   const select = await new Enquirer<{ values?: 'google' | 'ics' }>()
     .prompt({
       type: 'select',
       name: 'values',
       message: 'Where do you wanna to export to?',
-      choices: ['google', 'ics', 'terminal']
+      choices: ['google', 'ics', 'terminal', 'json']
     })
     .catch(() => ({ values: undefined }));
 
