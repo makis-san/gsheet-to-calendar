@@ -9,7 +9,7 @@ export default (calendarTitle: string, events: EventTypes[]) => {
       ...acc,
       [month]: [...(acc[month] ? acc[month] : []), cur.title]
     };
-  }, {});
+  }, {} as Record<string, string[]>);
 
   const table = new Table({ head: Object.keys(data) });
 

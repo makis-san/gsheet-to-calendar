@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv';
 import _export from '../export';
 import cliSpinners from 'cli-spinners';
 import ora from 'ora';
@@ -59,8 +58,6 @@ const fetchSheetInformation = async () => {
 };
 
 export default async () => {
-  dotenv.config();
-
   const { document, sheetId } = await fetchSheetInformation().catch(() =>
     process.exit(1)
   );

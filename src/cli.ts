@@ -1,6 +1,9 @@
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 import init from './actions/init';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export default yargs(hideBin(process.argv))
   .command('$0', 'Runs the process', () => {
