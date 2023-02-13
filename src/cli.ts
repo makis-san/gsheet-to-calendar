@@ -10,7 +10,7 @@ const cliOptions = yargs(hideBin(process.argv))
   .option('docId', {
     type: 'string',
     group: 'Sheet options',
-    description: 'Sets google spreadsheet id'
+    description: 'Sets google document id'
   })
   .option('sheetId', {
     type: 'string',
@@ -41,7 +41,7 @@ const cliOptions = yargs(hideBin(process.argv))
     type: 'string',
     group: 'Sheet options',
     description: 'Defines the locale for the date-fns. (ISO 639-1)',
-    default: 'pt-Br'
+    default: 'ptBR'
   })
   .option('startColumn', {
     type: 'string',
