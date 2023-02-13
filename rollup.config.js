@@ -3,11 +3,10 @@ import esbuild from 'rollup-plugin-esbuild';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import del from 'rollup-plugin-delete';
 import path from 'path';
-// import injectProcessEnv from 'rollup-plugin-inject-process-env';
 
 import * as dotenv from 'dotenv';
 dotenv.config();
-console.log(process.env);
+
 const bundle = (config) => ({
   ...config,
   input: './src/cli.ts',
