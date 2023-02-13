@@ -14,10 +14,7 @@ export default (calendarTitle: string, events: EventTypes[]) => {
   const table = new Table({ head: Object.keys(data) });
 
   table.push(
-    Object.keys(data).reduce(
-      (acc, cur) => [...acc, cur.length.toString()],
-      [] as string[]
-    )
+    Object.keys(data).map((month) => `${data[month].length} event(s) loaded`)
   );
 
   console.log(table.toString());
