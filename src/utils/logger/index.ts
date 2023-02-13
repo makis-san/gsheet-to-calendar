@@ -1,7 +1,7 @@
-import chalk, { ChalkInstance } from 'chalk';
+import chalk, { Chalk } from 'chalk';
 import { log as Log } from 'console';
 
-type TFunction = ((chalk: ChalkInstance) => string) | string;
+type TFunction = ((chalk: Chalk) => string) | string;
 
 const renderText = (text: string | TFunction) =>
   typeof text === 'string' ? text : text(chalk);
