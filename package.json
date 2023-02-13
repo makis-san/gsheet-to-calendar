@@ -14,7 +14,7 @@
   "scripts": {
     "start": "tsx ./src/cli.ts",
     "start:help": "tsx ./src/cli.ts --help",
-    "package": "pkg . --targets node14-macos-x64 --output ./bin/gsToCalendar",
+    "package": "pkg . --targets node16-macos-x64 --output ./bin/gsToCalendar",
     "build": "rollup -c rollup.config.js",
     "prod": "npm run build && npm run package",
     "dev": "tsx watch ./src/cli.ts",
