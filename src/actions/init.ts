@@ -47,7 +47,6 @@ const fetchSheetInformation = async () => {
 
   const sheetList = googleSheet.getSheets(document);
   const { sheetId } = await qa2.prompt(sheetIdPrompt(sheetList));
-  console.log(sheetId);
 
   return {
     document,

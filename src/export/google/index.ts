@@ -53,8 +53,6 @@ export default async (
       return;
     }
 
-    console.log(access_token);
-
     spinner.succeed();
 
     const userInfo = (
