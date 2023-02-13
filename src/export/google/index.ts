@@ -11,7 +11,8 @@ import saveEvents from './saveEvents';
 
 const canUseOauth = () =>
   process.env.CLIENT_ID !== undefined &&
-  process.env.CLIENT_SECRET !== undefined;
+  process.env.CLIENT_SECRET !== undefined &&
+  Boolean(process.env.DISABLE_OAUTH) !== true;
 
 export default async (
   calendarTitle: string,
@@ -22,13 +23,18 @@ export default async (
 
   const { option } = await qa.prompt({
     type: 'select',
-    message: 'Where it should be saved?',
+    message: 'Choose an? authentication method',
     name: 'option',
     choices: [
       !canUseOauth() ? chalk.strikethrough('oAuth') : 'oAuth',
       'Access Token'
     ],
-    validate: (value) => (!canUseOauth() && value === 'oAuth' ? false : true),
+    validate: (value) => {
+      if (value.includes('oAuth') && !canUseOauth()) {
+        return 'O auth is disabled.';
+      }
+      return true;
+    },
     required: true
   });
 

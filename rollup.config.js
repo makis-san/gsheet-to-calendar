@@ -30,7 +30,8 @@ export default [
           'process.env.CLIENT_ID': `"${process.env.CLIENT_ID}"`,
           'process.env.CLIENT_SECRET': `"${process.env.CLIENT_SECRET}"`,
           'process.env.DOC_API_KEY': `"${process.env.DOC_API_KEY}"`,
-          'process.env.TIME_ZONE': `"${process.env.TIME_ZONE}"`
+          'process.env.TIME_ZONE': `"${process.env.TIME_ZONE}"`,
+          'process.env.DISABLE_OAUTH': `"${process.env.DISABLE_OAUTH}"`
         }
       })
     ],
