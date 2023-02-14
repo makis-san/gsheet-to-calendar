@@ -1,7 +1,8 @@
 {
   "name": "gsheet-to-calendar",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
+  "main": "index.js",
   "bin": {
     "gsToCalendar": "./dist/cli/cli.js"
   },
@@ -13,7 +14,8 @@
     "start:help": "tsx ./src/cli.ts --help",
     "prod": "npm run build && npm run package",
     "dev": "tsx watch ./src/cli.ts",
-    "build": "rollup -c rollup.config.js && cp ./package.json ./dist/module",
+    "build": "rollup -c rollup.config.js",
+    "publish": "cd ./dist/module && npm publish",
     "package": "pkg . --output ./bin/gsToCalendar",
     "bundle": "cd bin && mv gsToCalendar-macos gsToCalendar && tar -czf gsToCalendar.tar.gz gsToCalendar",
     "lint": "eslint ./src/**/*.{js, ts, tsx} --no-error-on-unmatched-pattern",
@@ -50,6 +52,7 @@
     "prettier": "2.8.4",
     "pretty-quick": "^3.1.3",
     "rollup": "2.78",
+    "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-dts": "^5.1.1",
     "rollup-plugin-esbuild": "^5.0.0",

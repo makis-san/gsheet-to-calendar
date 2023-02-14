@@ -2,6 +2,7 @@ import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import del from 'rollup-plugin-delete';
+import copy from 'rollup-plugin-copy';
 import path from 'path';
 
 import * as dotenv from 'dotenv';
@@ -68,7 +69,15 @@ export default [
       peerDepsExternal({
         packageJsonPath: './package.json'
       }),
-      esbuild({ ...esbuildBaseConfig, define: undefined })
+      esbuild({ ...esbuildBaseConfig, define: undefined }),
+      copy({
+        targets: [
+          {
+            src: ['./package.json', './LICENSE.md', './README.md'],
+            dest: './dist/module'
+          }
+        ]
+      })
     ],
     output: baseOutput({
       dir: `./dist/module`,
