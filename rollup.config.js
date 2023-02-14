@@ -9,38 +9,56 @@ dotenv.config();
 
 const bundle = (config) => ({
   ...config,
-  input: './src/cli.ts',
   external: (id) => {
     return !id.startsWith('.') && !path.isAbsolute(id);
   }
 });
 
+const esbuildBaseConfig = {
+  minify: false,
+  tsconfig: './tsconfig.json',
+  sourceMap: false,
+  define: {
+    'process.env.CLIENT_ID': `"${process.env.CLIENT_ID}"`,
+    'process.env.CLIENT_SECRET': `"${process.env.CLIENT_SECRET}"`,
+    'process.env.DOC_API_KEY': `"${process.env.DOC_API_KEY}"`,
+    'process.env.TIME_ZONE': `"${process.env.TIME_ZONE}"`,
+    'process.env.DISABLE_OAUTH': `"${process.env.DISABLE_OAUTH}"`
+  }
+};
+
+const baseOutput = (config) => ({
+  ...config,
+  format: 'commonjs',
+  sourcemap: true,
+  preserveModules: true
+});
+
 export default [
   bundle({
+    input: './src/cli.ts',
     plugins: [
       del({ targets: 'dist/*' }),
       peerDepsExternal({
         packageJsonPath: './package.json'
       }),
-      esbuild({
-        minify: false,
-        tsconfig: './tsconfig.json',
-        sourceMap: false,
-        define: {
-          'process.env.CLIENT_ID': `"${process.env.CLIENT_ID}"`,
-          'process.env.CLIENT_SECRET': `"${process.env.CLIENT_SECRET}"`,
-          'process.env.DOC_API_KEY': `"${process.env.DOC_API_KEY}"`,
-          'process.env.TIME_ZONE': `"${process.env.TIME_ZONE}"`,
-          'process.env.DISABLE_OAUTH': `"${process.env.DISABLE_OAUTH}"`
-        }
-      })
+      esbuild(esbuildBaseConfig)
     ],
-    output: {
-      dir: `./dist`,
-      format: 'commonjs',
-      sourcemap: true,
-      preserveModules: true
-    }
+    output: baseOutput({
+      dir: `./dist/cli`
+    })
+  }),
+  bundle({
+    input: './src/index.ts',
+    plugins: [
+      peerDepsExternal({
+        packageJsonPath: './package.json'
+      }),
+      esbuild(esbuildBaseConfig)
+    ],
+    output: baseOutput({
+      dir: `./dist/module`
+    })
   }),
   {
     input: './src/cli.ts',
@@ -49,10 +67,19 @@ export default [
         tsconfig: './tsconfig.json'
       })
     ],
-    output: {
-      dir: `./dist`,
-      format: 'commonjs',
-      preserveModules: true
-    }
+    output: baseOutput({
+      dir: `./dist/cli`
+    })
+  },
+  {
+    input: './src/index.ts',
+    plugins: [
+      dts({
+        tsconfig: './tsconfig.json'
+      })
+    ],
+    output: baseOutput({
+      dir: `./dist/module`
+    })
   }
 ];

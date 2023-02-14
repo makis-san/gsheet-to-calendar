@@ -7,9 +7,7 @@ export default async (calendarTitle: string, oAuthClient: OAuth2Client) => {
     version: 'v3'
   });
 
-  const calendars = await api.calendarList
-    .list(undefined)
-    .then((res) => res.data.items);
+  const calendars = await api.calendarList.list().then((res) => res.data.items);
 
   const calendarSearch = calendars?.find(
     (where) => where.summary === calendarTitle
