@@ -16,6 +16,6 @@ export const loadSheetDocument = async (props: { url: string }) => {
   return {
     document,
     sheetList: googleSheet.getSheets(document),
-    fetchEvents: fetchEvents.bind(undefined, document, undefined)
+    fetchEvents: fetchEvents.bind(undefined, document)
   };
 };
