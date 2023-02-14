@@ -3,20 +3,28 @@
     <h1 align="center">Google Spreadsheet to Calendar</h1>
 </p>
 
-CLI api that uses google spreadsheet api to export calendar data.
+CLI app and package that uses google spreadsheet api to export calendar data directly into google agenda or other supported methods :)
 
 <p float="left">
 
 <img src="https://img.shields.io/github/package-json/v/makis-san/gsheet-to-calendar/main?label=Version&style=for-the-badge"/>
 
+<a href="https://www.npmjs.com/package/gsheet-to-calendar">
 <img src="https://img.shields.io/npm/v/gsheet-to-calendar?color=CC3534&style=for-the-badge"/>
+</a>
 
+<a href="https://github.com/makis-san/gsheet-to-calendar/issues">
 <img src="https://img.shields.io/github/issues-raw/makis-san/gsheet-to-calendar?color=blue&style=for-the-badge"/>
-
+</a>
+  
+<a href="https://github.com/makis-san/gsheet-to-calendar/pulls">
 <img src="https://img.shields.io/github/issues-pr-raw/makis-san/gsheet-to-calendar?color=blue&style=for-the-badge"/>
+</a>
 
+<a href="https://github.com/makis-san/gsheet-to-calendar/blob/main/LICENSE.md">
 <img src="https://img.shields.io/github/license/makis-san/gsheet-to-calendar?style=for-the-badge"/>
-
+</a>
+  
 </p>
 
 ## Planned releases
