@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "",
   "bin": {
-    "gsToCalendar": "./dist/cli.js"
+    "gsToCalendar": "./dist/cli/cli.js"
   },
   "engines": {
     "node": ">=16.0.0"
@@ -20,7 +20,7 @@
     "pretty-quick": "pretty-quick"
   },
   "pkg": {
-    "scripts": "./dist/**/*.js",
+    "scripts": "./dist/cli/**/*.js",
     "targets": [
       "node16-linux-x64",
       "node16-macos-x64",

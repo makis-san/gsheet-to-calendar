@@ -28,13 +28,14 @@ const esbuildBaseConfig = {
 };
 
 const baseOutput = (config) => ({
-  ...config,
   format: 'commonjs',
   sourcemap: true,
-  preserveModules: true
+  preserveModules: true,
+  ...config
 });
 
 export default [
+  /// CLI BUILD
   bundle({
     input: './src/cli.ts',
     plugins: [
@@ -48,18 +49,6 @@ export default [
       dir: `./dist/cli`
     })
   }),
-  bundle({
-    input: './src/index.ts',
-    plugins: [
-      peerDepsExternal({
-        packageJsonPath: './package.json'
-      }),
-      esbuild(esbuildBaseConfig)
-    ],
-    output: baseOutput({
-      dir: `./dist/module`
-    })
-  }),
   {
     input: './src/cli.ts',
     plugins: [
@@ -71,15 +60,32 @@ export default [
       dir: `./dist/cli`
     })
   },
+
+  /// MODULE BUILD
+  bundle({
+    input: './src/module/index.ts',
+    plugins: [
+      peerDepsExternal({
+        packageJsonPath: './package.json'
+      }),
+      esbuild({ ...esbuildBaseConfig, define: undefined })
+    ],
+    output: baseOutput({
+      dir: `./dist/module`,
+      preserveModules: false
+    })
+  }),
+
   {
-    input: './src/index.ts',
+    input: './src/module/index.ts',
     plugins: [
       dts({
         tsconfig: './tsconfig.json'
       })
     ],
     output: baseOutput({
-      dir: `./dist/module`
+      dir: `./dist/module`,
+      preserveModules: false
     })
   }
 ];

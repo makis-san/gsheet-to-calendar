@@ -2,7 +2,7 @@ import { calendar } from '@googleapis/calendar';
 import { OAuth2Client } from 'googleapis-common';
 import { log } from '../../utils';
 
-export default async (
+export const saveEvents = async (
   calendarId: string,
   events: EventTypes[],
   oAuthClient: OAuth2Client

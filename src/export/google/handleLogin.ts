@@ -2,7 +2,7 @@ import express from 'express';
 import open from 'open';
 import { getOAuthClient, port, redirect } from './getOAuthClient';
 
-export default async () => {
+export const handleLogin = async () => {
   let resolve: (value: string | PromiseLike<string>) => void;
   const app = express();
   const p = new Promise<string>((_resolve) => {

@@ -1,7 +1,10 @@
 import { calendar } from '@googleapis/calendar';
 import { OAuth2Client } from 'googleapis-common';
 
-export default async (calendarTitle: string, oAuthClient: OAuth2Client) => {
+export const generateCalendar = async (
+  calendarTitle: string,
+  oAuthClient: OAuth2Client
+) => {
   const api = calendar({
     auth: oAuthClient,
     version: 'v3'

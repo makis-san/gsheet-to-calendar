@@ -1,7 +1,7 @@
 import { format, parse } from 'date-fns';
 import * as Locales from 'date-fns/locale';
 import { GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
-import { FetchEventsFNOptions } from '../../../fetchEvents.types';
+import { FetchEventsFNOptions } from '../../../actions/fetchEvents/fetchEvents.types';
 
 export default (
   sheet: GoogleSpreadsheetWorksheet,
