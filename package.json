@@ -14,15 +14,21 @@
   "scripts": {
     "start": "tsx ./src/cli.ts",
     "start:help": "tsx ./src/cli.ts --help",
-    "package": "pkg . --targets node16-macos-x64 --output ./bin/gsToCalendar",
-    "build": "rollup -c rollup.config.js",
     "prod": "npm run build && npm run package",
     "dev": "tsx watch ./src/cli.ts",
+    "build": "rollup -c rollup.config.js",
+    "package": "pkg . --output ./bin/gsToCalendar",
+    "bundle": "cd bin && mv gsToCalendar-macos gsToCalendar && tar -czf gsToCalendar.tar.gz gsToCalendar",
     "lint": "eslint ./src/**/*.{js, ts, tsx} --no-error-on-unmatched-pattern",
     "pretty-quick": "pretty-quick"
   },
   "pkg": {
-    "scripts": "./dist/**/*.js"
+    "scripts": "./dist/**/*.js",
+    "targets": [
+      "node16-linux-x64",
+      "node16-macos-x64",
+      "node16-win-x64"
+    ]
   },
   "keywords": [],
   "author": "",
