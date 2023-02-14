@@ -1,7 +1,20 @@
 {
   "name": "gsheet-to-calendar",
   "version": "0.0.3",
-  "description": "",
+  "license": "MIT",
+  "repository": "git@github.com:makis-san/gsheet-to-calendar.git",
+  "description": "CLI app and package that uses google spreadsheet api to export calendar data directly into google agenda or other supported methods :)",
+  "keywords": [
+    "google",
+    "calendar",
+    "spreadsheet",
+    "cli"
+  ],
+  "bugs": "https://github.com/makis-san/gsheet-to-calendar/issues",
+  "author": {
+    "name": "Santiago Souza",
+    "url": "https://santiagosouza.dev/"
+  },
   "main": "index.js",
   "bin": {
     "gsToCalendar": "./dist/cli/cli.js"
@@ -29,9 +42,6 @@
       "node16-win-x64"
     ]
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
     "@types/cli-table": "^0.3.1",
     "@types/date-fns": "^2.6.0",
