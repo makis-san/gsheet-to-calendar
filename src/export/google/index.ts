@@ -4,10 +4,10 @@ import cliSpinners from 'cli-spinners';
 import Enquirer from 'enquirer';
 import ora from 'ora';
 import { log } from '../../utils';
-import generateCalendar from './generateCalendar';
+import { generateCalendar } from './generateCalendar';
 import { getOAuthClient } from './getOAuthClient';
-import handleLogin from './handleLogin';
-import saveEvents from './saveEvents';
+import { handleLogin } from './handleLogin';
+import { saveEvents } from './saveEvents';
 
 const canUseOauth = () =>
   process.env.CLIENT_ID !== undefined &&
@@ -95,3 +95,8 @@ export default async (
   if (!calendarId) return;
   await saveEvents(calendarId, events, oAuthClient);
 };
+
+export * from './generateCalendar';
+export * from './getOAuthClient';
+export * from './handleLogin';
+export * from './saveEvents';

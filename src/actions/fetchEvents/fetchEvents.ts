@@ -1,14 +1,9 @@
 import _export from '../../export';
 import chalk from 'chalk';
-import { getColumnRange } from './utils/columnRange';
-import { FetchEventsFN, FetchEventsFNOptions } from './fetchEvents.types';
-import parseEvents from './utils/parseEvents/parseEvents';
-
-export const defaultFetchOptions: FetchEventsFNOptions = {
-  dateFormat: `d 'de' MMMM`,
-  startColumn: 'A',
-  locale: 'ptBR'
-};
+import { getColumnRange } from '../../utils/columnRange';
+import { FetchEventsFN } from './fetchEvents.types';
+import parseEvents from '../../utils/parseEvents/parseEvents';
+import { defaultFetchOptions } from '../../utils/defaultFetchOptions';
 
 export const fetchEvents: FetchEventsFN = async (props) => {
   const { callback, document, options: fnOptions, sheetId } = props;

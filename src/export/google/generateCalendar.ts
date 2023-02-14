@@ -1,15 +1,16 @@
 import { calendar } from '@googleapis/calendar';
 import { OAuth2Client } from 'googleapis-common';
 
-export default async (calendarTitle: string, oAuthClient: OAuth2Client) => {
+export const generateCalendar = async (
+  calendarTitle: string,
+  oAuthClient: OAuth2Client
+) => {
   const api = calendar({
     auth: oAuthClient,
     version: 'v3'
   });
 
-  const calendars = await api.calendarList
-    .list(undefined)
-    .then((res) => res.data.items);
+  const calendars = await api.calendarList.list().then((res) => res.data.items);
 
   const calendarSearch = calendars?.find(
     (where) => where.summary === calendarTitle

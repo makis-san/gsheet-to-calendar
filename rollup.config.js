@@ -2,6 +2,7 @@ import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import del from 'rollup-plugin-delete';
+import copy from 'rollup-plugin-copy';
 import path from 'path';
 
 import * as dotenv from 'dotenv';
@@ -9,38 +10,45 @@ dotenv.config();
 
 const bundle = (config) => ({
   ...config,
-  input: './src/cli.ts',
   external: (id) => {
     return !id.startsWith('.') && !path.isAbsolute(id);
   }
 });
 
+const esbuildBaseConfig = {
+  minify: false,
+  tsconfig: './tsconfig.json',
+  sourceMap: false,
+  define: {
+    'process.env.CLIENT_ID': `"${process.env.CLIENT_ID}"`,
+    'process.env.CLIENT_SECRET': `"${process.env.CLIENT_SECRET}"`,
+    'process.env.DOC_API_KEY': `"${process.env.DOC_API_KEY}"`,
+    'process.env.TIME_ZONE': `"${process.env.TIME_ZONE}"`,
+    'process.env.DISABLE_OAUTH': `"${process.env.DISABLE_OAUTH}"`
+  }
+};
+
+const baseOutput = (config) => ({
+  format: 'commonjs',
+  sourcemap: true,
+  preserveModules: true,
+  ...config
+});
+
 export default [
+  /// CLI BUILD
   bundle({
+    input: './src/cli.ts',
     plugins: [
       del({ targets: 'dist/*' }),
       peerDepsExternal({
         packageJsonPath: './package.json'
       }),
-      esbuild({
-        minify: false,
-        tsconfig: './tsconfig.json',
-        sourceMap: false,
-        define: {
-          'process.env.CLIENT_ID': `"${process.env.CLIENT_ID}"`,
-          'process.env.CLIENT_SECRET': `"${process.env.CLIENT_SECRET}"`,
-          'process.env.DOC_API_KEY': `"${process.env.DOC_API_KEY}"`,
-          'process.env.TIME_ZONE': `"${process.env.TIME_ZONE}"`,
-          'process.env.DISABLE_OAUTH': `"${process.env.DISABLE_OAUTH}"`
-        }
-      })
+      esbuild(esbuildBaseConfig)
     ],
-    output: {
-      dir: `./dist`,
-      format: 'commonjs',
-      sourcemap: true,
-      preserveModules: true
-    }
+    output: baseOutput({
+      dir: `./dist/cli`
+    })
   }),
   {
     input: './src/cli.ts',
@@ -49,10 +57,44 @@ export default [
         tsconfig: './tsconfig.json'
       })
     ],
-    output: {
-      dir: `./dist`,
-      format: 'commonjs',
-      preserveModules: true
-    }
+    output: baseOutput({
+      dir: `./dist/cli`
+    })
+  },
+
+  /// MODULE BUILD
+  bundle({
+    input: './src/module/index.ts',
+    plugins: [
+      peerDepsExternal({
+        packageJsonPath: './package.json'
+      }),
+      esbuild({ ...esbuildBaseConfig, define: undefined }),
+      copy({
+        targets: [
+          {
+            src: ['./package.json', './LICENSE.md', './README.md'],
+            dest: './dist/module'
+          }
+        ]
+      })
+    ],
+    output: baseOutput({
+      dir: `./dist/module`,
+      preserveModules: false
+    })
+  }),
+
+  {
+    input: './src/module/index.ts',
+    plugins: [
+      dts({
+        tsconfig: './tsconfig.json'
+      })
+    ],
+    output: baseOutput({
+      dir: `./dist/module`,
+      preserveModules: false
+    })
   }
 ];
