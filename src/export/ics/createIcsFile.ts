@@ -1,12 +1,11 @@
 import chalk from 'chalk';
-import cliSpinners from 'cli-spinners';
 import { addDays, format } from 'date-fns';
 import fs from 'fs';
 import * as ics from 'ics';
-import ora from 'ora';
 import path from 'path';
-import { log } from '../../utils';
+import { isSilent, log } from '../../utils';
 import Enquirer from 'enquirer';
+import { useSpinner } from '../../utils/spinner/spinner';
 
 export default async (calendarTitle: string, events: EventTypes[]) => {
   const qa = new Enquirer<{ saveUrl: string }>();
@@ -22,11 +21,10 @@ export default async (calendarTitle: string, events: EventTypes[]) => {
     saveUrl || ''
   )}/${calendarTitle}.ics`;
 
-  const spinner = ora({
-    text: `Writing file to ${writePath}`,
-    spinner: cliSpinners.dots
-  });
-  spinner.start();
+  const spinner = useSpinner(`Writing file to ${writePath}`);
+
+  if (!isSilent) spinner.start();
+
   const parsedEvents = events.map(
     (event) =>
       ({

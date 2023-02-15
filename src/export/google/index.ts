@@ -1,9 +1,8 @@
 import { oauth2 } from '@googleapis/oauth2';
 import chalk from 'chalk';
-import cliSpinners from 'cli-spinners';
 import Enquirer from 'enquirer';
-import ora from 'ora';
-import { log } from '../../utils';
+import { isSilent, log } from '../../utils';
+import { useSpinner } from '../../utils/spinner/spinner';
 import { generateCalendar } from './generateCalendar';
 import { getOAuthClient } from './getOAuthClient';
 import { handleLogin } from './handleLogin';
@@ -39,11 +38,9 @@ export default async (
   });
 
   if (option === 'oAuth') {
-    const spinner = ora({
-      text: 'Waiting for google...',
-      spinner: cliSpinners.dots
-    });
-    spinner.start();
+    const spinner = useSpinner('Waiting for google...');
+
+    if (!isSilent) spinner.start();
 
     setTimeout(() => {
       spinner.text = 'Timed out';

@@ -1,12 +1,12 @@
 import _export, { exportMethods } from '../export';
-import cliSpinners from 'cli-spinners';
-import ora from 'ora';
 import fetchEvents from './fetchEvents/fetchEvents';
-import Enquirer from 'enquirer';
 import googleSheet from './googleSheet';
 import { CLIArguments } from '../cli';
 import { LocaleKeyTypes } from './fetchEvents/fetchEvents.types';
 import prompts from './prompts';
+import { isSilent } from '../utils';
+import { useSpinner } from '../utils/spinner/spinner';
+import { exportPrompt } from './prompts/export';
 
 const fetchSheetInformation = async (args?: {
   docId?: string;
@@ -14,16 +14,14 @@ const fetchSheetInformation = async (args?: {
 }) => {
   const docId = args?.docId ? args.docId : (await prompts.getDocInfo()).docId;
 
-  const spinner = ora({
-    text: 'Trying to fetch spreadsheet...',
-    spinner: cliSpinners.dots
-  });
-  spinner.start();
+  const spinner = useSpinner('Trying to fetch spreadsheet...');
+  if (!isSilent) spinner.start();
 
   const document = await googleSheet.loadDocument(docId, (msg) => {
     spinner.text = msg;
     spinner.fail();
   });
+
   spinner.text = `Succesfully loaded ${document.title}`;
   spinner.succeed();
 
@@ -45,11 +43,9 @@ export default async (args: CLIArguments) => {
     sheetId: args.sheetId
   }).catch(() => process.exit(1));
 
-  const spinner = ora({
-    text: 'Trying to fetch calendar...',
-    spinner: cliSpinners.dots
-  });
-  spinner.start();
+  const spinner = useSpinner('Trying to fetch calendar...');
+
+  if (!isSilent) spinner.start();
 
   const locale = `${args.locale.split('-')[0]}${
     args.locale.split('-')[1] ? args.locale.split('-')[1].toUpperCase() : ''
@@ -80,18 +76,12 @@ export default async (args: CLIArguments) => {
 
   spinner.stop();
 
-  const select = await new Enquirer<{ values?: keyof typeof _export }>()
-    .prompt({
-      type: 'select',
-      name: 'values',
-      message: 'Select an export method',
-      choices: exportMethods
-    })
-    .catch(() => ({ values: undefined }));
+  const exportMethod =
+    (args.exportAs as keyof typeof _export) || (await exportPrompt()).export;
 
   const { calendarTitle, events } = res;
 
-  if (!select.values) process.exit(1);
+  if (!exportMethods.includes(exportMethod)) process.exit(1);
 
-  _export[select.values](calendarTitle, events, locale);
+  _export[exportMethod](calendarTitle, events, locale);
 };
