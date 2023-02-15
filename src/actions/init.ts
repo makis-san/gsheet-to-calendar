@@ -1,12 +1,12 @@
 import _export, { exportMethods } from '../export';
 import fetchEvents from './fetchEvents/fetchEvents';
-import Enquirer from 'enquirer';
 import googleSheet from './googleSheet';
 import { CLIArguments } from '../cli';
 import { LocaleKeyTypes } from './fetchEvents/fetchEvents.types';
 import prompts from './prompts';
 import { isSilent } from '../utils';
 import { useSpinner } from '../utils/spinner/spinner';
+import { exportPrompt } from './prompts/export';
 
 const fetchSheetInformation = async (args?: {
   docId?: string;
@@ -76,18 +76,12 @@ export default async (args: CLIArguments) => {
 
   spinner.stop();
 
-  const select = await new Enquirer<{ values?: keyof typeof _export }>()
-    .prompt({
-      type: 'select',
-      name: 'values',
-      message: 'Select an export method',
-      choices: exportMethods
-    })
-    .catch(() => ({ values: undefined }));
+  const exportMethod =
+    (args.exportAs as keyof typeof _export) || (await exportPrompt()).export;
 
   const { calendarTitle, events } = res;
 
-  if (!select.values) process.exit(1);
+  if (!exportMethods.includes(exportMethod)) process.exit(1);
 
-  _export[select.values](calendarTitle, events, locale);
+  _export[exportMethod](calendarTitle, events, locale);
 };
