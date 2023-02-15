@@ -13,17 +13,16 @@ export default (
       locale: Locales[locale]
     });
 
-    return {
-      ...acc,
-      [`${month.charAt(0).toUpperCase()}${month.slice(1)}`]: [
-        ...(acc[month] ? acc[month] : []),
-        cur.title
-      ]
-    };
+    if (!acc[month]) acc[month] = [];
+
+    acc[month].push(cur.title);
+
+    return acc;
   }, {} as Record<string, string[]>);
 
   const table = new Table({ head: Object.keys(data) });
 
+  console.log(process.argv);
   table.push(
     Object.keys(data).map((month) => `${data[month].length} event(s) loaded`)
   );
