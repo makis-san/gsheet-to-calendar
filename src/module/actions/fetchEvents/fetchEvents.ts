@@ -53,9 +53,9 @@ export const fetchEvents = async (
     events = parseEvents.byDefinedColumns(sheet, rowRange, options);
   }
 
-  if (events.length <= 0) {
+  if (events.length <= 0 && options.debug) {
     log.error('Unable to find any events in this document.');
-    process.exit(1);
+    return;
   }
 
   if (options.debug) {
