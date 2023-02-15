@@ -4,12 +4,11 @@ import {
   saveEvents
 } from '../../../export/google';
 import { log } from '../../../utils';
+import { SaveToGoogleFN } from './saveToGoogle.types';
 
-export const saveToGoogle = async (
-  calendarTitle: string,
-  events: EventTypes[],
-  accessToken: string
-) => {
+export const saveToGoogle: SaveToGoogleFN = async (props) => {
+  const { accessToken, calendarTitle, events } = props;
+
   if (!accessToken) return;
 
   const OAuthClient = getOAuthClient(accessToken);
@@ -23,3 +22,5 @@ export const saveToGoogle = async (
 
   return saveEvents(calendarId, events, OAuthClient);
 };
+
+export * from './saveToGoogle.types';

@@ -1,21 +1,16 @@
-import { GoogleSpreadsheet } from 'google-spreadsheet';
-import { FetchEventsFNOptions } from '../../../actions/fetchEvents/fetchEvents.types';
 import { log } from '../../../utils';
 import { getColumnRange } from '../../../utils/columnRange';
 import { defaultFetchOptions } from '../../../utils/defaultFetchOptions';
 import parseEvents from '../../../utils/parseEvents/parseEvents';
 import { saveToGoogle } from '../saveToGoogle/saveToGoogle';
+import { FetchEventsFN } from './fetchEvents.types';
 
-export const fetchEvents = async (
-  document?: GoogleSpreadsheet,
-  props: {
-    sheetId?: string;
-    options?: FetchEventsFNOptions & { debug?: boolean };
-  } = {}
-) => {
-  if (!document) return;
-
-  const { options = { ...defaultFetchOptions, debug: false }, sheetId } = props;
+export const fetchEvents: FetchEventsFN = async (props) => {
+  const {
+    document,
+    options = { ...defaultFetchOptions, debug: false },
+    sheetId
+  } = props;
 
   const sheet =
     sheetId && sheetId !== '' && document.sheetsById[sheetId]
@@ -23,7 +18,7 @@ export const fetchEvents = async (
       : document.sheetsByIndex.at(-1);
 
   if (((sheetId && !document.sheetsById[sheetId]) || sheetId === '') && sheet) {
-    return undefined;
+    return;
   }
 
   if (!sheet) {
@@ -53,7 +48,7 @@ export const fetchEvents = async (
     events = parseEvents.byDefinedColumns(sheet, rowRange, options);
   }
 
-  if (events.length <= 0 && options.debug) {
+  if (events.length <= 0) {
     log.error('Unable to find any events in this document.');
     return;
   }
@@ -64,7 +59,11 @@ export const fetchEvents = async (
 
   return {
     events,
-    saveToGoogle: saveToGoogle.bind(undefined, document.title, events),
+    saveToGoogle: saveToGoogle.bind(undefined, {
+      calendarTitle: document.title,
+      events,
+      accessToken: ''
+    }),
     calendarTitle: sheet.title
   };
 };
