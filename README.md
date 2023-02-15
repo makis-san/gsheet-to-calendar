@@ -29,9 +29,7 @@ CLI app and package that uses google spreadsheet api to export calendar data dir
 
 ## Planned releases
 
-- Full cli support (75%)
 - Web application (Working on)
-- Publish to npm package registry (Working on)
 - Publish to homebrew
 
 ## Supported exports
@@ -50,15 +48,18 @@ CLI app and package that uses google spreadsheet api to export calendar data dir
 $ gsToCalendar
 ```
 
-| Argument          | Description                                                                                                   | Defaults      |
-| ----------------- | ------------------------------------------------------------------------------------------------------------- | ------------- |
-| docId             | Defines the google document id                                                                                | null          |
-| sheetId           | Defines the google sheet id                                                                                   | null          |
-| dateFormat        | Defines the date string format.Follow [date-fns parse documentation](https://date-fns.org/v2.29.3/docs/parse) | "d 'de' MMMM" |
-| dateStringColumn  | Defines wich column contains the date string                                                                  | null          |
-| titleStringColumn | Defines wich column contains the event title string                                                           | null          |
-| locale            | Defines the locale for the date-fns. (ISO 639-1)                                                              | ptBR          |
-| startColumn       | Define the initial column                                                                                     | A             |
+| Props                     | Description                                                                                                   | Required | Default       |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------- | -------- | ------------- |
+| sheetId                   | Google sheet id from current document                                                                         | false    | null          |
+| options                   | Options object                                                                                                | false    | null          |
+| options.debug             | Enable error logging                                                                                          | false    | false         |
+| options.docId             | Defines the google document id                                                                                | false    | null          |
+| options.sheetId           | Defines the google sheet id                                                                                   | false    | null          |
+| options.dateFormat        | Defines the date string format.Follow [date-fns parse documentation](https://date-fns.org/v2.29.3/docs/parse) | false    | "d 'de' MMMM" |
+| options.dateStringColumn  | Defines wich column contains the date string                                                                  | false    | null          |
+| options.titleStringColumn | Defines wich column contains the event title string                                                           | false    | null          |
+| options.locale            | Defines the locale for the date-fns. (ISO 639-1)                                                              | false    | ptBR          |
+| options.startColumn       | Define the initial column                                                                                     | false    | A             |
 
 ## Usage as a package
 
