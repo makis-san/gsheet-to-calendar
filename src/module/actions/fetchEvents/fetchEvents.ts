@@ -2,6 +2,7 @@ import { log } from '../../../utils'
 import { getColumnRange } from '../../../utils/columnRange'
 import { defaultFetchOptions } from '../../../utils/defaultFetchOptions'
 import parseEvents from '../../../utils/parseEvents/parseEvents'
+import { saveICS } from '../saveIcs/saveIcs'
 import { saveToGoogle } from '../saveToGoogle/saveToGoogle'
 import { FetchEventsFN } from './fetchEvents.types'
 
@@ -64,6 +65,7 @@ export const fetchEvents: FetchEventsFN = async (props) => {
       events,
       accessToken: ''
     }),
+    saveICS: () => saveICS({ events }),
     calendarTitle: sheet.title
   }
 }
