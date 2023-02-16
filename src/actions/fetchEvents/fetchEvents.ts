@@ -1,24 +1,24 @@
-import _export from '../../export';
-import chalk from 'chalk';
-import { getColumnRange } from '../../utils/columnRange';
-import { FetchEventsFN } from './fetchEvents.types';
-import parseEvents from '../../utils/parseEvents/parseEvents';
-import { defaultFetchOptions } from '../../utils/defaultFetchOptions';
+import _export from '../../export'
+import chalk from 'chalk'
+import { getColumnRange } from '../../utils/columnRange'
+import { FetchEventsFN } from './fetchEvents.types'
+import parseEvents from '../../utils/parseEvents/parseEvents'
+import { defaultFetchOptions } from '../../utils/defaultFetchOptions'
 
 export const fetchEvents: FetchEventsFN = async (props) => {
-  const { callback, document, options: fnOptions, sheetId } = props;
+  const { callback, document, options: fnOptions, sheetId } = props
 
   const options = {
     ...fnOptions,
     dateFormat: fnOptions?.dateFormat || defaultFetchOptions.dateFormat,
     startColumn: fnOptions?.startColumn || defaultFetchOptions.startColumn,
     locale: fnOptions?.locale || defaultFetchOptions.locale
-  };
+  }
 
   const sheet =
     sheetId && sheetId !== '' && document.sheetsById[sheetId]
       ? document.sheetsById[sheetId]
-      : document.sheetsByIndex.at(-1);
+      : document.sheetsByIndex.at(-1)
 
   if (((sheetId && !document.sheetsById[sheetId]) || sheetId === '') && sheet) {
     callback(
@@ -26,44 +26,44 @@ export const fetchEvents: FetchEventsFN = async (props) => {
         sheet.sheetId
       )} instead`,
       'warn'
-    );
+    )
   }
 
   if (!sheet) {
-    callback(`Unable to locate sheet`);
-    return;
+    callback(`Unable to locate sheet`)
+    return
   }
 
-  const rowRange = sheet.rowCount || 34;
+  const rowRange = sheet.rowCount || 34
 
-  await sheet.loadCells(`${options.startColumn}1:${rowRange}`);
+  await sheet.loadCells(`${options.startColumn}1:${rowRange}`)
 
   const columnsToFetchData = [
     options.dateStringColumn,
     options.titleStringColumn
-  ];
+  ]
 
   const columnRange = getColumnRange([
     options.startColumn,
     sheet.lastColumnLetter
-  ]);
+  ])
 
-  let events: EventTypes[] = [];
+  let events: EventTypes[] = []
 
   if (!columnsToFetchData[0] && !columnsToFetchData[1]) {
-    events = await parseEvents.byRead(sheet, rowRange, columnRange, options);
+    events = await parseEvents.byRead(sheet, rowRange, columnRange, options)
   } else {
-    events = parseEvents.byDefinedColumns(sheet, rowRange, options);
+    events = parseEvents.byDefinedColumns(sheet, rowRange, options)
   }
 
   if (events.length <= 0) {
-    callback('Unable to find any events in this document.');
-    process.exit(1);
+    callback('Unable to find any events in this document.')
+    process.exit(1)
   }
 
-  callback(`Loaded ${chalk.bold(events.length)} events!`, 'info');
+  callback(`Loaded ${chalk.bold(events.length)} events!`, 'info')
 
-  return { events, calendarTitle: sheet.title };
-};
+  return { events, calendarTitle: sheet.title }
+}
 
-export default fetchEvents;
+export default fetchEvents

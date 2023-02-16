@@ -1,19 +1,19 @@
-import dts from 'rollup-plugin-dts';
-import esbuild from 'rollup-plugin-esbuild';
-import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import del from 'rollup-plugin-delete';
-import copy from 'rollup-plugin-copy';
-import path from 'path';
+import dts from 'rollup-plugin-dts'
+import esbuild from 'rollup-plugin-esbuild'
+import peerDepsExternal from 'rollup-plugin-peer-deps-external'
+import del from 'rollup-plugin-delete'
+import copy from 'rollup-plugin-copy'
+import path from 'path'
 
-import * as dotenv from 'dotenv';
-dotenv.config();
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 const bundle = (config) => ({
   ...config,
   external: (id) => {
-    return !id.startsWith('.') && !path.isAbsolute(id);
+    return !id.startsWith('.') && !path.isAbsolute(id)
   }
-});
+})
 
 const esbuildBaseConfig = {
   minify: false,
@@ -26,14 +26,14 @@ const esbuildBaseConfig = {
     'process.env.TIME_ZONE': `"${process.env.TIME_ZONE}"`,
     'process.env.DISABLE_OAUTH': `"${process.env.DISABLE_OAUTH}"`
   }
-};
+}
 
 const baseOutput = (config) => ({
   format: 'commonjs',
   sourcemap: true,
   preserveModules: true,
   ...config
-});
+})
 
 export default [
   /// CLI BUILD
@@ -97,4 +97,4 @@ export default [
       preserveModules: false
     })
   }
-];
+]

@@ -1,27 +1,27 @@
-import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { GoogleSpreadsheet } from 'google-spreadsheet'
 import {
   FetchEventsProps,
   FetchEventsReturn
-} from '../fetchEvents/fetchEvents.types';
+} from '../fetchEvents/fetchEvents.types'
 
 export interface LoadSheetDocumentProps {
-  url: string;
+  url: string
 }
 
 export type LoadSheetDocumentReturn = Promise<
   | {
-      document: GoogleSpreadsheet;
+      document: GoogleSpreadsheet
       sheetList: {
-        name: string;
-        value: string;
-      }[];
+        name: string
+        value: string
+      }[]
       fetchEvents: (
         props: Pick<FetchEventsProps, 'document'>
-      ) => FetchEventsReturn;
+      ) => FetchEventsReturn
     }
   | undefined
->;
+>
 
 export type LoadSheetDocumentFN = (
   props: LoadSheetDocumentProps
-) => LoadSheetDocumentReturn;
+) => LoadSheetDocumentReturn

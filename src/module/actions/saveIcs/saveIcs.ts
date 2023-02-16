@@ -1,10 +1,10 @@
-import { addDays, format } from 'date-fns';
-import * as ics from 'ics';
-import { log } from '../../../utils';
-import { SaveIcsFN } from './saveIcs.types';
+import { addDays, format } from 'date-fns'
+import * as ics from 'ics'
+import { log } from '../../../utils'
+import { SaveIcsFN } from './saveIcs.types'
 
 export const saveICS: SaveIcsFN = async (props) => {
-  const { events } = props;
+  const { events } = props
 
   const parsedEvents = events.map(
     (event) =>
@@ -23,23 +23,23 @@ export const saveICS: SaveIcsFN = async (props) => {
             [] as number[]
           ) as ics.DateArray
       } as ics.EventAttributes)
-  );
+  )
 
-  const { error, value } = ics.createEvents(parsedEvents);
+  const { error, value } = ics.createEvents(parsedEvents)
 
   if (error) {
-    log.error(error.name);
-    return;
+    log.error(error.name)
+    return
   }
 
-  if (!value) return;
+  if (!value) return
 
-  const buffer = Buffer.from(value);
+  const buffer = Buffer.from(value)
 
   return {
     buffer,
     base64: buffer.toString('base64')
-  };
-};
+  }
+}
 
-export * from './saveIcs.types';
+export * from './saveIcs.types'

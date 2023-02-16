@@ -1,4 +1,4 @@
-import createIcsFile from './createIcsFile';
+import createIcsFile from './createIcsFile'
 
 export default (calendarTitle: string, events: EventTypes[]) =>
-  createIcsFile(calendarTitle, events);
+  createIcsFile(calendarTitle, events)

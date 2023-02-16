@@ -1,7 +1,7 @@
 export interface SaveToGoogleProps {
-  calendarTitle: string;
-  events: EventTypes[];
-  accessToken: string;
+  calendarTitle: string
+  events: EventTypes[]
+  accessToken: string
 }
 
-export type SaveToGoogleFN = (props: SaveToGoogleProps) => Promise<void>;
+export type SaveToGoogleFN = (props: SaveToGoogleProps) => Promise<void>
