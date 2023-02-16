@@ -81,7 +81,7 @@ export default async (args: CLIArguments) => {
 
   const { calendarTitle, events } = res
 
-  if (!exportMethods.includes(exportMethod)) process.exit(1)
+  if (!Object.keys(_export).includes(exportMethod)) process.exit(1)
 
   _export[exportMethod](calendarTitle, events, locale)
 }

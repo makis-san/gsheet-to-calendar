@@ -22,7 +22,6 @@ export default (
 
   const table = new Table({ head: Object.keys(data) })
 
-  console.log(process.argv)
   table.push(
     Object.keys(data).map((month) => `${data[month].length} event(s) loaded`)
   )
