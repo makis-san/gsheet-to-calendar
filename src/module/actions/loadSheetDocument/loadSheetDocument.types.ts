@@ -16,7 +16,7 @@ export type LoadSheetDocumentReturn = Promise<
         value: string
       }[]
       fetchEvents: (
-        props: Pick<FetchEventsProps, 'document'>
+        props: Omit<FetchEventsProps, 'document'>
       ) => FetchEventsReturn
     }
   | undefined
