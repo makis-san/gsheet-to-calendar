@@ -1,6 +1,6 @@
-import { calendar } from '@googleapis/calendar';
-import { OAuth2Client } from 'googleapis-common';
-import { log } from '../../utils';
+import { calendar } from '@googleapis/calendar'
+import { OAuth2Client } from 'googleapis-common'
+import { log } from '../../utils'
 
 export const saveEvents = async (
   calendarId: string,
@@ -10,7 +10,7 @@ export const saveEvents = async (
   const api = calendar({
     auth: oAuthClient,
     version: 'v3'
-  });
+  })
 
   await Promise.all(
     events.map(async (event) => {
@@ -18,9 +18,9 @@ export const saveEvents = async (
         calendarId,
         fields: 'summary',
         q: `summary=${event.title}`
-      });
+      })
 
-      if (eventWithSameTitle.data.items) return;
+      if (eventWithSameTitle.data.items) return
 
       await api.events
         .insert({
@@ -43,7 +43,7 @@ export const saveEvents = async (
             endTimeUnspecified: true
           }
         })
-        .catch((e) => log.error(`Unable to create event code ${e.code}`));
+        .catch((e) => log.error(`Unable to create event code ${e.code}`))
     })
-  );
-};
+  )
+}

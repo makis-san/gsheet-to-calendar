@@ -1,7 +1,7 @@
-import byDefinedColumns from './byDefinedColumns';
-import byRead from './byRead';
+import byDefinedColumns from './byDefinedColumns'
+import byRead from './byRead'
 
 export default {
   byRead,
   byDefinedColumns
-};
+}

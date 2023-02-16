@@ -1,4 +1,4 @@
-import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { GoogleSpreadsheet } from 'google-spreadsheet'
 
 export default (doc: GoogleSpreadsheet) => {
   return doc.sheetsByIndex.reduce(
@@ -10,5 +10,5 @@ export default (doc: GoogleSpreadsheet) => {
       }
     ],
     [] as { value: string; name: string }[]
-  );
-};
+  )
+}

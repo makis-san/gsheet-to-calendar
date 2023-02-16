@@ -2,24 +2,25 @@ import {
   getOAuthClient,
   generateCalendar,
   saveEvents
-} from '../../../export/google';
-import { log } from '../../../utils';
+} from '../../../export/google'
+import { log } from '../../../utils'
+import { SaveToGoogleFN } from './saveToGoogle.types'
 
-export const saveToGoogle = async (
-  calendarTitle: string,
-  events: EventTypes[],
-  accessToken: string
-) => {
-  if (!accessToken) return;
+export const saveToGoogle: SaveToGoogleFN = async (props) => {
+  const { accessToken, calendarTitle, events } = props
 
-  const OAuthClient = getOAuthClient(accessToken);
+  if (!accessToken) return
 
-  const calendarId = await generateCalendar(calendarTitle, OAuthClient);
+  const OAuthClient = getOAuthClient(accessToken)
+
+  const calendarId = await generateCalendar(calendarTitle, OAuthClient)
 
   if (!calendarId) {
-    log.error(`Unable to create calendar id`);
-    return;
+    log.error(`Unable to create calendar id`)
+    return
   }
 
-  return saveEvents(calendarId, events, OAuthClient);
-};
+  return saveEvents(calendarId, events, OAuthClient)
+}
+
+export * from './saveToGoogle.types'

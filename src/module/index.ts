@@ -1,4 +1,4 @@
-import googleSheet from '../actions/googleSheet';
-export * from './actions';
+import googleSheet from '../actions/googleSheet'
+export * from './actions'
 
-export { googleSheet };
+export { googleSheet }

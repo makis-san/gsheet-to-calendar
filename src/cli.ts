@@ -1,10 +1,10 @@
-import yargs from 'yargs/yargs';
-import { hideBin } from 'yargs/helpers';
-import init from './actions/init';
-import * as dotenv from 'dotenv';
-import { exportMethods } from './export';
+import yargs from 'yargs/yargs'
+import { hideBin } from 'yargs/helpers'
+import * as dotenv from 'dotenv'
+import init from './actions/init'
+import { exportMethods } from './export'
 
-dotenv.config();
+dotenv.config()
 
 const cliOptions = yargs(hideBin(process.argv))
   .option('docId', {
@@ -69,10 +69,10 @@ const cliOptions = yargs(hideBin(process.argv))
       'Sets google token (will automatically export to google calendar)'
   })
   .command('$0', 'Runs the process', (args) => {
-    init(args.argv);
+    init(args.argv)
   })
-  .parse();
+  .parse()
 
-export type CLIArguments = typeof cliOptions;
+export type CLIArguments = typeof cliOptions
 
-export default cliOptions;
+export default cliOptions

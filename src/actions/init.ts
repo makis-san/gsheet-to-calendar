@@ -1,66 +1,66 @@
-import _export, { exportMethods } from '../export';
-import fetchEvents from './fetchEvents/fetchEvents';
-import googleSheet from './googleSheet';
-import { CLIArguments } from '../cli';
-import { LocaleKeyTypes } from './fetchEvents/fetchEvents.types';
-import prompts from './prompts';
-import { isSilent } from '../utils';
-import { useSpinner } from '../utils/spinner/spinner';
-import { exportPrompt } from './prompts/export';
+import _export, { exportMethods } from '../export'
+import fetchEvents from './fetchEvents/fetchEvents'
+import googleSheet from './googleSheet'
+import { CLIArguments } from '../cli'
+import { LocaleKeyTypes } from './fetchEvents/fetchEvents.types'
+import prompts from './prompts'
+import { isSilent } from '../utils'
+import { useSpinner } from '../utils/spinner/spinner'
+import { exportPrompt } from './prompts/export'
 
 const fetchSheetInformation = async (args?: {
-  docId?: string;
-  sheetId?: string;
+  docId?: string
+  sheetId?: string
 }) => {
-  const docId = args?.docId ? args.docId : (await prompts.getDocInfo()).docId;
+  const docId = args?.docId ? args.docId : (await prompts.getDocInfo()).docId
 
-  const spinner = useSpinner('Trying to fetch spreadsheet...');
-  if (!isSilent) spinner.start();
+  const spinner = useSpinner('Trying to fetch spreadsheet...')
+  if (!isSilent) spinner.start()
 
   const document = await googleSheet.loadDocument(docId, (msg) => {
-    spinner.text = msg;
-    spinner.fail();
-  });
+    spinner.text = msg
+    spinner.fail()
+  })
 
-  spinner.text = `Succesfully loaded ${document.title}`;
-  spinner.succeed();
+  spinner.text = `Succesfully loaded ${document.title}`
+  spinner.succeed()
 
   const sheetId = args?.sheetId
     ? args.sheetId
-    : await prompts.getSheetId(document);
+    : await prompts.getSheetId(document)
 
   return {
     document,
     sheetId
-  };
-};
+  }
+}
 
 export default async (args: CLIArguments) => {
-  args = await args;
+  args = await args
 
   const { document, sheetId } = await fetchSheetInformation({
     docId: args.docId,
     sheetId: args.sheetId
-  }).catch(() => process.exit(1));
+  }).catch(() => process.exit(1))
 
-  const spinner = useSpinner('Trying to fetch calendar...');
+  const spinner = useSpinner('Trying to fetch calendar...')
 
-  if (!isSilent) spinner.start();
+  if (!isSilent) spinner.start()
 
   const locale = `${args.locale.split('-')[0]}${
     args.locale.split('-')[1] ? args.locale.split('-')[1].toUpperCase() : ''
-  }` as LocaleKeyTypes;
+  }` as LocaleKeyTypes
 
   const res = await fetchEvents({
     document,
     sheetId,
     callback: (error, type) => {
-      spinner.text = error;
+      spinner.text = error
       if (!type) {
-        spinner.fail();
-        return;
+        spinner.fail()
+        return
       }
-      spinner[type] && spinner[type](error);
+      spinner[type] && spinner[type](error)
     },
     options: {
       dateFormat: args?.dateFormat,
@@ -68,20 +68,20 @@ export default async (args: CLIArguments) => {
       titleStringColumn: args?.titleStringColumn,
       locale
     }
-  });
+  })
 
   if (!res) {
-    process.exit();
+    process.exit()
   }
 
-  spinner.stop();
+  spinner.stop()
 
   const exportMethod =
-    (args.exportAs as keyof typeof _export) || (await exportPrompt()).export;
+    (args.exportAs as keyof typeof _export) || (await exportPrompt()).export
 
-  const { calendarTitle, events } = res;
+  const { calendarTitle, events } = res
 
-  if (!exportMethods.includes(exportMethod)) process.exit(1);
+  if (!exportMethods.includes(exportMethod)) process.exit(1)
 
-  _export[exportMethod](calendarTitle, events, locale);
-};
+  _export[exportMethod](calendarTitle, events, locale)
+}

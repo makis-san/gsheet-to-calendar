@@ -25,10 +25,10 @@ export const columnRange = [
   'X',
   'Y',
   'Z'
-];
+]
 
 export const getColumnRange = (range: [string, string]): string[] =>
   columnRange.slice(
     columnRange.findIndex((where) => where === range[0]),
     columnRange.findIndex((where) => where === range[1])
-  );
+  )
