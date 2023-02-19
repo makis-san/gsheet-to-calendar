@@ -7,11 +7,9 @@ import { saveToGoogle } from '../saveToGoogle/saveToGoogle'
 import { FetchEventsFN } from './fetchEvents.types'
 
 export const fetchEvents: FetchEventsFN = async (props) => {
-  const {
-    document,
-    options = { ...defaultFetchOptions, debug: false },
-    sheetId
-  } = props
+  const { document, options: receivedOptions, sheetId } = props
+
+  const options = receivedOptions || { ...defaultFetchOptions, debug: false }
 
   const sheet =
     sheetId && sheetId !== '' && document.sheetsById[sheetId]

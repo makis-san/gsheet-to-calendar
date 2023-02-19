@@ -17,10 +17,16 @@ const fetchSheetInformation = async (args?: {
   const spinner = useSpinner('Trying to fetch spreadsheet...')
   if (!isSilent) spinner.start()
 
-  const document = await googleSheet.loadDocument(docId, (msg) => {
-    spinner.text = msg
-    spinner.fail()
-  })
+  const document = await googleSheet.loadDocument(
+    docId,
+    (msg) => {
+      spinner.text = msg
+      spinner.fail()
+    },
+    true
+  )
+
+  if (!document) return
 
   spinner.text = `Succesfully loaded ${document.title}`
   spinner.succeed()
@@ -38,10 +44,14 @@ const fetchSheetInformation = async (args?: {
 export default async (args: CLIArguments) => {
   args = await args
 
-  const { document, sheetId } = await fetchSheetInformation({
+  const documentResponse = await fetchSheetInformation({
     docId: args.docId,
     sheetId: args.sheetId
   }).catch(() => process.exit(1))
+
+  if (!documentResponse) return
+
+  const { document, sheetId } = documentResponse
 
   const spinner = useSpinner('Trying to fetch calendar...')
 

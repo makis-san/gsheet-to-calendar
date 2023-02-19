@@ -32,7 +32,7 @@ export default (
 
       const parsedEvents = dates.map((dateString) => {
         const date = parse(
-          dateValue.toString().replace(/.*[0-9]/gm, `${dateString}`),
+          dateValue.toString(),
           options.dateFormat,
           new Date(),
           {
@@ -43,7 +43,7 @@ export default (
         date.setHours(0, 0, 0, 0)
         return {
           date,
-          title: `${title.value} - ${format(date, 'dMY')}`
+          title: `${title.value}`
         }
       })
 
