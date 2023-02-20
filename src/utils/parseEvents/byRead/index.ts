@@ -29,19 +29,20 @@ export default async (
       if (!dates || !nearCell.value) return
 
       const parsedEvents = dates.map((dateString) => {
+        console.log(cell.value.toString())
         const date = parse(
-          cell.value.toString().replace(/.*[0-9]/gm, `${dateString}`),
+          cell.value.toString(),
           options.dateFormat,
           new Date(),
           {
             locale: Locales[options.locale]
           }
         )
-
         date.setHours(0, 0, 0, 0)
+
         return {
           date,
-          title: `${nearCell.value} - ${format(date, 'dMY')}`
+          title: `${nearCell.value}`
         }
       })
 

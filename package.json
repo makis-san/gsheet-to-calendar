@@ -1,6 +1,6 @@
 {
   "name": "gsheet-to-calendar",
-  "version": "0.0.5-1",
+  "version": "0.0.6",
   "license": "MIT",
   "repository": "git@github.com:makis-san/gsheet-to-calendar.git",
   "description": "CLI app and package that uses google spreadsheet api to export calendar data directly into google agenda or other supported methods :)",
