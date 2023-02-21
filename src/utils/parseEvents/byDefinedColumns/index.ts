@@ -3,11 +3,11 @@ import * as Locales from 'date-fns/locale'
 import { GoogleSpreadsheetWorksheet } from 'google-spreadsheet'
 import { FetchEventsFNOptions } from '../../../actions/fetchEvents/fetchEvents.types'
 
-export default (
+export default function byDefinedColumns(
   sheet: GoogleSpreadsheetWorksheet,
   rowRange: number,
   options: FetchEventsFNOptions
-) => {
+) {
   const { dateStringColumn: dateA1, titleStringColumn: titleA1 } = options
 
   if (!dateA1 || !titleA1) return []
@@ -30,17 +30,29 @@ export default (
 
       if (!dates || !title.value) return
 
-      const parsedEvents = dates.map((dateString) => {
-        const date = parse(
-          dateValue.toString(),
-          options.dateFormat,
-          new Date(),
-          {
-            locale: Locales[options.locale]
-          }
-        )
+      let referenceDate: Date
 
-        date.setHours(0, 0, 0, 0)
+      const parsedEvents = dates.map((dateString) => {
+        const stringToBeParsed =
+          index === 0
+            ? dateValue
+                .toString()
+                .replace(/[0-9,\s][0-9\,]*[0-9,\s]*/g, ` ${dateString} `)
+            : dateString
+
+        let date: Date
+
+        if (index === 0) {
+          date = parse(stringToBeParsed, options.dateFormat, new Date(), {
+            locale: Locales[options.locale]
+          })
+          date.setHours(0, 0, 0, 0)
+
+          referenceDate = date
+        } else {
+          date = referenceDate
+          date.setDate(Number(stringToBeParsed))
+        }
         return {
           date,
           title: `${title.value}`
