@@ -1,5 +1,5 @@
 import Table from 'cli-table'
-import { format } from 'date-fns'
+import { format, isValid } from 'date-fns'
 import * as Locales from 'date-fns/locale'
 import { LocaleKeyTypes } from '../../actions/fetchEvents/fetchEvents.types'
 

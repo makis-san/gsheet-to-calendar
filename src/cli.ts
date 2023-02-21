@@ -21,7 +21,7 @@ const cliOptions = yargs(hideBin(process.argv))
     type: 'string',
     alias: 'dFormat',
     group: 'Sheet options',
-    default: `d 'de' MMMM`,
+    default: `MMMM do`,
     description:
       'Defines the date format that the cli should look for at cells. Follow date-fns parse instructions.'
   })
@@ -41,7 +41,7 @@ const cliOptions = yargs(hideBin(process.argv))
     type: 'string',
     group: 'Sheet options',
     description: 'Defines the locale for the date-fns. (ISO 639-1)',
-    default: 'ptBR'
+    default: 'enUS'
   })
   .option('startColumn', {
     type: 'string',

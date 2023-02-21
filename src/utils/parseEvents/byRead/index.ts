@@ -1,14 +1,14 @@
-import { format, parse } from 'date-fns'
+import { parse } from 'date-fns'
 import * as Locales from 'date-fns/locale'
 import { GoogleSpreadsheetWorksheet } from 'google-spreadsheet'
 import { FetchEventsFNOptions } from '../../../actions/fetchEvents/fetchEvents.types'
 
-export default async (
+export default function byRead(
   sheet: GoogleSpreadsheetWorksheet,
   rowRange: number,
   columnRange: string[],
   options: FetchEventsFNOptions
-) => {
+) {
   const events: EventTypes[] = []
 
   columnRange.forEach((col, colIndex) =>
@@ -28,17 +28,29 @@ export default async (
 
       if (!dates || !nearCell.value) return
 
-      const parsedEvents = dates.map((dateString) => {
-        console.log(cell.value.toString())
-        const date = parse(
-          cell.value.toString(),
-          options.dateFormat,
-          new Date(),
-          {
+      let referenceDate: Date
+
+      const parsedEvents = dates.map((dateString, index) => {
+        const stringToBeParsed =
+          index === 0
+            ? cell.value
+                .toString()
+                .replace(/[0-9,\s][0-9\,]*[0-9,\s]*/g, ` ${dateString} `)
+            : dateString
+
+        let date: Date
+
+        if (index === 0) {
+          date = parse(stringToBeParsed, options.dateFormat, new Date(), {
             locale: Locales[options.locale]
-          }
-        )
-        date.setHours(0, 0, 0, 0)
+          })
+          date.setHours(0, 0, 0, 0)
+
+          referenceDate = date
+        } else {
+          date = referenceDate
+          date.setDate(Number(stringToBeParsed))
+        }
 
         return {
           date,
